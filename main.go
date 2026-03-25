@@ -1,26 +1,27 @@
 package main
 
 import (
-	"fmt"
+	"awesomeProject/handlers"
+	"github.com/gin-gonic/gin"
 )
 
-func getLength(s string, c chan int) {
-	c <- len(s)
-}
-
 func main() {
-	var str1, str2 string
+	r := gin.Default()
 
-	str1 = "makpal"
-	str2 = "adam"
+	// Book routes
+	r.GET("/books", handlers.GetBooks)
+	r.POST("/books", handlers.CreateBook)
+	r.GET("/books/:id", handlers.GetBook)
+	r.PUT("/books/:id", handlers.UpdateBook)
+	r.DELETE("/books/:id", handlers.DeleteBook)
 
-	c := make(chan int)
+	// Author routes
+	r.GET("/authors", handlers.GetAuthors)
+	r.POST("/authors", handlers.CreateAuthor)
 
-	go getLength(str1, c)
-	go getLength(str2, c)
+	// Category routes
+	r.GET("/categories", handlers.GetCategories)
+	r.POST("/categories", handlers.CreateCategory)
 
-	len1, len2 := <-c, <-c
-
-	fmt.Printf("%d and %d\n", len1, len2)
-	fmt.Printf("%d\n", len1+len2)
+	r.Run(":8080")
 }
