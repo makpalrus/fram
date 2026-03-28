@@ -3,7 +3,6 @@ package handlers
 import (
 	"awesomeProject/models"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 var authors []models.Author
